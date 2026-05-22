@@ -1,0 +1,53 @@
+{
+  "name": "samsung-battery-checker",
+  "version": "1.0.0",
+  "description": "A Samsung Battery Health Checker desktop utility featuring a simple design.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder"
+  },
+  "keywords": [
+    "samsung",
+    "battery",
+    "checker",
+    "health",
+    "cycles",
+    "adb",
+    "electron"
+  ],
+  "author": "Djfox936",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.calvin.samsungbatterychecker",
+    "productName": "Samsung Battery Checker",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!adbtools/**/*",
+      "!dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "adbtools",
+        "to": "adbtools",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
