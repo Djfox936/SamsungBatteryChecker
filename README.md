@@ -49,8 +49,8 @@ Samsung Battery Checker communicates directly with your connected Samsung Galaxy
 
 ### Direct Download (For Regular Users)
 If you just want to run the application, **you do not need to install Node.js or compile any code!** Simply download the pre-packaged standalone binaries directly from the [GitHub Releases](https://github.com/Djfox936/SamsungBatteryChecker/releases) page:
-*   **macOS (Apple Silicon & Intel)**: Download `Samsung.Battery.Checker-[version].dmg`. Double-click to open and drag the app into your `Applications` folder.
-*   **Windows 10/11**: Download `Samsung.Battery.Checker.Setup.[version].exe`. Double-click to run the installer and the app will launch instantly.
+*   **macOS (Apple Silicon & Intel)**: Download `Samsung.Battery.Checker_[version].app`. Double-click to open.
+*   **Windows 10/11**: Download `SamsungBattery.Checker_[version]_Windows_Portable.zip`. Double-click to run the installer and the app will launch instantly.
 
 ---
 
@@ -119,8 +119,8 @@ This executes `electron-builder` under the hood to compile standalone binaries:
 
 ### 快速下載安裝（一般用戶）
 如果您只想使用本工具，**不需要安裝 Node.js 或執行任何終端機指令！**請直接前往本專案的 [GitHub Releases](https://github.com/Djfox936/SamsungBatteryChecker/releases) 頁面下載我們預先封裝好的獨立安裝檔：
-*   **macOS 系統 (Apple Silicon 與 Intel 處理器)**：下載 `Samsung.Battery.Checker-[version].dmg`。雙擊打開並拖移至「應用程式」資料夾 (Applications) 即可使用。
-*   **Windows 系統 (Windows 10/11)**：下載 `Samsung.Battery.Checker.Setup.[version].exe`。雙擊打開執行安裝程式即可自動啟動應用程式。
+*   **macOS 系統 (Apple Silicon 與 Intel 處理器)**：下載 `Samsung.Battery.Checker_[version].dmg`。雙擊打開即可使用。
+*   **Windows 系統 (Windows 10/11)**：下載 `SamsungBattery.Checker_[version]_Windows_Portable.zip`。雙擊打開執行安裝程式即可自動啟動應用程式。
 
 ---
 
