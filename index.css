@@ -879,3 +879,40 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Windows Driver guidance tip box styling */
+.driver-tip-box {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background-color: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.driver-tip-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.driver-tip-content {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  text-align: left;
+}
+
+.driver-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s ease;
+}
+
+.driver-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}

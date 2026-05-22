@@ -98,6 +98,8 @@ const elGuideStep2Title = document.getElementById('guide-step2-title');
 const elGuideStep2Desc = document.getElementById('guide-step2-desc');
 const elGuideStep3Title = document.getElementById('guide-step3-title');
 const elGuideStep3Desc = document.getElementById('guide-step3-desc');
+const elDriverTipBox = document.getElementById('driver-tip-box');
+const elTxtDriverTip = document.getElementById('txt-driver-tip');
 
 // Translation bindings label dictionary
 const elLblHealth = document.getElementById('lbl-health');
@@ -122,14 +124,14 @@ const elLblHealthStatus = document.getElementById('lbl-health-status');
 function getFriendlyModelName(modelCode) {
   if (!modelCode) return 'Samsung Phone';
   const cleaned = modelCode.trim();
-  
+
   // Extract base model code (e.g. SM-S928B -> SM-S928)
   let baseModel = cleaned;
   const smMatch = cleaned.match(/SM-[A-Z0-9]+/i);
   if (smMatch) {
     baseModel = smMatch[0];
   }
-  
+
   // Lookup dictionary for Samsung mainstream devices (Regularly updated)
   const samsungModels = {
     // S Flagship Series (S26 - S8)
@@ -164,7 +166,7 @@ function getFriendlyModelName(modelCode) {
     'SM-G960': 'Galaxy S9',
     'SM-G955': 'Galaxy S8+',
     'SM-G950': 'Galaxy S8',
-    
+
     // Z Foldable & Flip Series
     'SM-F966': 'Galaxy Z Fold7',
     'SM-F766': 'Galaxy Z Flip7',
@@ -180,7 +182,7 @@ function getFriendlyModelName(modelCode) {
     'SM-F707': 'Galaxy Z Flip 5G',
     'SM-F700': 'Galaxy Z Flip',
     'SM-F900': 'Galaxy Fold',
-    
+
     // Note Productivity Series
     'SM-N986': 'Galaxy Note20 Ultra 5G',
     'SM-N981': 'Galaxy Note20 5G',
@@ -188,7 +190,7 @@ function getFriendlyModelName(modelCode) {
     'SM-N970': 'Galaxy Note10',
     'SM-N960': 'Galaxy Note9',
     'SM-N950': 'Galaxy Note8',
-    
+
     // FE Special Flagships
     'SM-S721': 'Galaxy S24 FE',
     'SM-S711': 'Galaxy S23 FE',
@@ -216,7 +218,7 @@ function getFriendlyModelName(modelCode) {
     'SM-A715': 'Galaxy A71',
     'SM-A505': 'Galaxy A50',
     'SM-A705': 'Galaxy A70',
-    
+
     // Tab Premium Tablet Series
     'SM-X926': 'Galaxy Tab S10 Ultra 5G',
     'SM-X920': 'Galaxy Tab S10 Ultra (Wi-Fi)',
@@ -234,7 +236,7 @@ function getFriendlyModelName(modelCode) {
     'SM-T870': 'Galaxy Tab S7',
     'SM-T970': 'Galaxy Tab S7+'
   };
-  
+
   // Strip regional suffixes for exact matches (e.g. SM-S9310 / SM-S931B -> SM-S931)
   let lookupKey = baseModel;
   if (baseModel.length > 7) {
@@ -246,19 +248,19 @@ function getFriendlyModelName(modelCode) {
       }
     }
   }
-  
+
   // Exact dictionary match
   if (samsungModels[lookupKey]) {
     return samsungModels[lookupKey];
   }
-  
+
   // Fallback to fuzzy substring lookup
   for (const key in samsungModels) {
     if (baseModel.toUpperCase().includes(key.toUpperCase())) {
       return samsungModels[key];
     }
   }
-  
+
   // Dynamic fallback mapping when unlisted (e.g. Samsung SM-S999B)
   return `Samsung ${cleaned}`;
 }
@@ -273,14 +275,14 @@ function getFriendlyModelName(modelCode) {
 function updateLanguageUI(lang) {
   currentLanguage = lang;
   localStorage.setItem('samsung_battery_lang', lang); // Persist language preference
-  
+
   const dict = window.translations[lang] || window.translations['en']; // Fallback to English
-  
+
   // 1. Update title bars
   elAppTitle.textContent = dict.title;
   elAppSubtitle.textContent = dict.subtitle;
   elLangSelect.value = lang;
-  
+
   // 2. Real-time system state labels update
   if (deviceStatus === 'disconnected') {
     elConnectionStatus.textContent = dict.noDevice;
@@ -298,13 +300,13 @@ function updateLanguageUI(lang) {
 
   // 3. Instruction refresh btn update
   elTxtRefreshBtn.textContent = dict.refresh;
-  
+
   // 4. Main telemetry metric title text
   elLblHealth.textContent = dict.health;
   elLblCycles.textContent = dict.cycles;
   elLblLevel.textContent = dict.currentLevel;
   elLblStatus.textContent = dict.status;
-  
+
   // 5. Secondary device specifications title text
   elLblModelCode.textContent = dict.modelCode;
   elLblTemp.textContent = dict.temp;
@@ -312,14 +314,14 @@ function updateLanguageUI(lang) {
   elLblPowerSource.textContent = dict.powerSource;
   elLblOsVersion.textContent = dict.osVersion;
   elLblHealthStatus.textContent = dict.healthStatus;
-  
+
   // 6. First use catalog title text
   elLblFirstUse.textContent = dict.firstUse;
   elValFirstUseSub.textContent = dict.firstUseSub;
-  
+
   // 7. Refresh controls button update
   elTxtDashboardRefresh.textContent = dict.refresh;
-  
+
   // 8. Connection debugging instruction guide list update
   elGuideMainTitle.textContent = dict.guideTitle;
   elGuideStep1Title.textContent = dict.step1Title;
@@ -328,6 +330,17 @@ function updateLanguageUI(lang) {
   elGuideStep2Desc.textContent = dict.step2Desc;
   elGuideStep3Title.textContent = dict.step3Title;
   elGuideStep3Desc.textContent = dict.step3Desc;
+
+  // Localize driver tip and only show on Windows
+  if (elDriverTipBox && elTxtDriverTip && dict.driverTip) {
+    elTxtDriverTip.innerHTML = dict.driverTip;
+    const isWindows = navigator.userAgent.toLowerCase().includes('windows');
+    if (isWindows) {
+      elDriverTipBox.style.display = 'flex';
+    } else {
+      elDriverTipBox.style.display = 'none';
+    }
+  }
 
   // 9. Unauthorized hardware restricted access error panel update
   if (elUnsupportedView) {
@@ -341,7 +354,7 @@ function updateLanguageUI(lang) {
     elLblUnsupportedAction.textContent = dict.notSamsungAction;
     elTxtUnsupportedRefresh.textContent = dict.refresh;
   }
-  
+
   // 10. Re-trigger diagnostic text generation if device details exist
   if (deviceStatus === 'connected' && deviceData) {
     renderBatteryTelemetry(deviceData);
@@ -404,7 +417,7 @@ function formatFirstUseDate(rawVal) {
 function parseBatteryDump(rawOutput) {
   const data = {};
   const lines = rawOutput.split('\n');
-  
+
   // Extract key-value configurations and strip surrounding brackets
   lines.forEach(line => {
     const trimmed = line.trim();
@@ -415,10 +428,10 @@ function parseBatteryDump(rawOutput) {
       data[key] = val;
     }
   });
-  
+
   // Custom Regex scan for Samsung unique FirstUseDate calendar attribute
   const firstUseMatch = rawOutput.match(/FirstUseDate:\s*\[?(\d{8})\]?/i);
-  
+
   return {
     acPowered: data['AC powered'] === 'true',
     usbPowered: data['USB powered'] === 'true',
@@ -429,7 +442,7 @@ function parseBatteryDump(rawOutput) {
     voltage: parseInt(data['voltage']) || 0,
     temp: parseInt(data['temperature'] || data['temp']) || 0, // Fallback for various device mappings
     maxCurrent: parseInt(data['Max charging current']) || 0,
-    
+
     // Samsung Proprietary registers
     // mSavedBatteryAsoc: Battery ASOC (Actual State of Charge / Health %)
     // mSavedBatteryBsoh: Backup health index (Found on certain tablets)
@@ -449,12 +462,12 @@ function parseBatteryDump(rawOutput) {
  */
 function renderBatteryTelemetry(stats) {
   const dict = window.translations[currentLanguage] || window.translations['en'];
-  
+
   // ------------------------------------------------------------------------
   // A. Battery Health (ASOC) & SVG Progress Ring Animation
   // ------------------------------------------------------------------------
   let healthPercent = 100;
-  
+
   if (stats.savedBatteryAsoc !== null && stats.savedBatteryAsoc > 0 && stats.savedBatteryAsoc <= 100) {
     healthPercent = stats.savedBatteryAsoc;
   } else {
@@ -475,51 +488,51 @@ function renderBatteryTelemetry(stats) {
   const offset = dashArray - (healthPercent / 100) * dashArray;
   elHealthGaugeFill.style.strokeDashoffset = offset;
   elHealthValue.textContent = `${healthPercent}%`;
-  
+
   // Health ranking and detailed dynamic diagnostic description builder
   let ratingText = '';
   let evaluationDesc = '';
   let badgeClass = '';
-  
+
   if (healthPercent >= 95) {
     ratingText = dict.excellent;
     badgeClass = 'status-connected'; // Success Green
     evaluationDesc = currentLanguage === 'zh-TW' ? `您的電池狀態極佳（${healthPercent}%）。極低的化學老化，能為手機提供充足的續航力與頂尖的效能。繼續保持良好的充電習慣（儘量維持在 20%-80% 之間）！` :
-                     currentLanguage === 'zh-CN' ? `您的电池状态极佳（${healthPercent}%）。极低的化学老化，能为手机提供充足的续航力与顶尖的性能。继续保持良好的充电习惯（尽量维持在 20%-80% 之间）！` :
-                     currentLanguage === 'ja' ? `バッテリーの状態は極めて良好です（${healthPercent}%）。化学的劣化が非常に低く、本来の持続時間と最高のパフォーマンスを発揮できます。現在の充電習慣（20%-80%維持）を継続してください。` :
-                     currentLanguage === 'ko' ? `배터리 상태가 최상입니다 (${healthPercent}%). 화학적 노화가 거의 없으며, 최장 사용 시간과 최고 성능을 제공합니다. 20%~80% 사이를 유지하는 좋은 충전 습관을 계속 유지해 주세요!` :
-                     `Your battery is in excellent condition (${healthPercent}%). Very low chemical wear means maximum backup time and top performance. Keep up your healthy charging habits (20%-80%)!`;
+      currentLanguage === 'zh-CN' ? `您的电池状态极佳（${healthPercent}%）。极低的化学老化，能为手机提供充足的续航力与顶尖的性能。继续保持良好的充电习惯（尽量维持在 20%-80% 之间）！` :
+        currentLanguage === 'ja' ? `バッテリーの状態は極めて良好です（${healthPercent}%）。化学的劣化が非常に低く、本来の持続時間と最高のパフォーマンスを発揮できます。現在の充電習慣（20%-80%維持）を継続してください。` :
+          currentLanguage === 'ko' ? `배터리 상태가 최상입니다 (${healthPercent}%). 화학적 노화가 거의 없으며, 최장 사용 시간과 최고 성능을 제공합니다. 20%~80% 사이를 유지하는 좋은 충전 습관을 계속 유지해 주세요!` :
+            `Your battery is in excellent condition (${healthPercent}%). Very low chemical wear means maximum backup time and top performance. Keep up your healthy charging habits (20%-80%)!`;
   } else if (healthPercent >= 85) {
     ratingText = dict.good;
     badgeClass = 'status-connected';
     evaluationDesc = currentLanguage === 'zh-TW' ? `您的電池狀態良好（${healthPercent}%）。已有輕微的化學損耗，但不影響日常的正常使用與系統效能。` :
-                     currentLanguage === 'zh-CN' ? `您的电池状态良好（${healthPercent}%）。已有轻微的化学损耗，但不影响日常的正常使用与系统性能。` :
-                     currentLanguage === 'ja' ? `バッテリーの状態は良好です（${healthPercent}%）。軽度の経年劣化が見られますが、日常の通常使用やシステム動作には影響ありません。` :
-                     currentLanguage === 'ko' ? `배터리 상태가 양호합니다 (${healthPercent}%). 가벼운 성능 감소가 발생했으나, 일상 사용 및 하드웨어 성능 유지에는 문제없는 수준입니다.` :
-                     `Your battery is in good condition (${healthPercent}%). Some slight chemical aging is present but it does not impact daily usage or device performance.`;
+      currentLanguage === 'zh-CN' ? `您的电池状态良好（${healthPercent}%）。已有轻微的化学损耗，但不影响日常的正常使用与系统性能。` :
+        currentLanguage === 'ja' ? `バッテリーの状態は良好です（${healthPercent}%）。軽度の経年劣化が見られますが、日常の通常使用やシステム動作には影響ありません。` :
+          currentLanguage === 'ko' ? `배터리 상태가 양호합니다 (${healthPercent}%). 가벼운 성능 감소가 발생했으나, 일상 사용 및 하드웨어 성능 유지에는 문제없는 수준입니다.` :
+            `Your battery is in good condition (${healthPercent}%). Some slight chemical aging is present but it does not impact daily usage or device performance.`;
   } else if (healthPercent >= 80) {
     ratingText = dict.normal;
     badgeClass = 'status-unauthorized'; // Attention Amber
     evaluationDesc = currentLanguage === 'zh-TW' ? `您的電池處於普通狀態（${healthPercent}%）。電池已接近正常損耗的臨界點。在重度使用下可能感覺到續航力有些微下降。` :
-                     currentLanguage === 'zh-CN' ? `您的电池处于普通状态（${healthPercent}%）。电池已接近正常损耗的临界点。在重度使用下可能感觉到续航力有些微下降。` :
-                     currentLanguage === 'ja' ? `バッテリーの状態は普通です（${healthPercent}%）。通常の劣化限度に近づいています。高負荷時の稼働時間が多少短くなったと感じる場合があります。` :
-                     currentLanguage === 'ko' ? `배터리 상태가 보통입니다 (${healthPercent}%). 일반적인 배터리 노화 기준에 근접했습니다. 무거운 앱을 실행할 때 배터리가 다소 빠르게 소모될 수 있습니다.` :
-                     `Your battery is in normal condition (${healthPercent}%). It is approaching the standard threshold of wear. You may notice slightly reduced backup time under heavy usage.`;
+      currentLanguage === 'zh-CN' ? `您的电池处于普通状态（${healthPercent}%）。电池已接近正常损耗的临界点。在重度使用下可能感觉到续航力有些微下降。` :
+        currentLanguage === 'ja' ? `バッテリーの状態は普通です（${healthPercent}%）。通常の劣化限度に近づいています。高負荷時の稼働時間が多少短くなったと感じる場合があります。` :
+          currentLanguage === 'ko' ? `배터리 상태가 보통입니다 (${healthPercent}%). 일반적인 배터리 노화 기준에 근접했습니다. 무거운 앱을 실행할 때 배터리가 다소 빠르게 소모될 수 있습니다.` :
+            `Your battery is in normal condition (${healthPercent}%). It is approaching the standard threshold of wear. You may notice slightly reduced backup time under heavy usage.`;
   } else {
     ratingText = dict.service;
     badgeClass = 'status-disconnected'; // Warning Red
     evaluationDesc = currentLanguage === 'zh-TW' ? `電池已顯著老化（${healthPercent}%）。建議前往三星授權服務中心更換電池，以恢復原本的續航力，並避免在高負載下發生系統降頻或無故關機。` :
-                     currentLanguage === 'zh-CN' ? `电池已显著老化（${healthPercent}%）。建议前往三星授权服务中心更换电池，以恢复原本的续航力，并避免在高负载下发生系统降频或无故关机。` :
-                     currentLanguage === 'ja' ? `バッテリーの劣化が著しいです（${healthPercent}%）。本来の駆動時間を取り戻し、パフォーマンス低下や予期せぬシャットダウンを防ぐため、サムスン公式サポートでのバッテリー交換を推奨します。` :
-                     currentLanguage === 'ko' ? `배터리 수명이 크게 저하되었습니다 (${healthPercent}%). 원래의 사용 시간을 회복하고 예기치 못한 종료 또는 성능 강하를 방지하기 위해 삼성 서비스 센터에서 배터리 교체를 권장합니다.` :
-                     `Your battery is significantly degraded (${healthPercent}%). We highly recommend visiting a Samsung authorized service center to replace the battery to restore full capacity and prevent unexpected shutdowns.`;
+      currentLanguage === 'zh-CN' ? `电池已显著老化（${healthPercent}%）。建议前往三星授权服务中心更换电池，以恢复原本的续航力，并避免在高负载下发生系统降频或无故关机。` :
+        currentLanguage === 'ja' ? `バッテリーの劣化が著しいです（${healthPercent}%）。本来の駆動時間を取り戻し、パフォーマンス低下や予期せぬシャットダウンを防ぐため、サムスン公式サポートでのバッテリー交換を推奨します。` :
+          currentLanguage === 'ko' ? `배터리 수명이 크게 저하되었습니다 (${healthPercent}%). 원래의 사용 시간을 회복하고 예기치 못한 종료 또는 성능 강하를 방지하기 위해 삼성 서비스 센터에서 배터리 교체를 권장합니다.` :
+            `Your battery is significantly degraded (${healthPercent}%). We highly recommend visiting a Samsung authorized service center to replace the battery to restore full capacity and prevent unexpected shutdowns.`;
   }
-  
+
   elHealthEvaluation.textContent = ratingText;
   elHealthRatingBadge.textContent = ratingText;
   elHealthRatingBadge.className = `badge ${badgeClass}`;
   elValHealthEvaluation.textContent = evaluationDesc;
-  
+
   // ------------------------------------------------------------------------
   // B. Charge Cycles Counter & Depletion Line Progress
   // ------------------------------------------------------------------------
@@ -529,19 +542,19 @@ function renderBatteryTelemetry(stats) {
     cycles = Math.round(stats.savedBatteryUsage / 100);
   }
   elCycleValue.textContent = stats.savedBatteryUsage !== null ? `${cycles}` : '--';
-  
+
   // Render depletion ratio based on typical lithium battery limit (500 cycles)
   const cyclePercent = Math.min((cycles / 500) * 100, 100);
   elCycleBarFill.style.width = `${cyclePercent}%`;
-  
+
   // ------------------------------------------------------------------------
   // C. Live Charging Status & Bolt Animations
   // ------------------------------------------------------------------------
   elLevelValue.textContent = `${stats.level}%`;
-  
+
   let statusText = dict.unknown;
   const isCharging = stats.status === 2;
-  
+
   if (stats.status === 2) {
     statusText = dict.charging;
     elChargeBolt.classList.add('active'); // Start charging lightning animation
@@ -558,7 +571,7 @@ function renderBatteryTelemetry(stats) {
     elChargeBolt.classList.remove('active');
   }
   elStatusValue.textContent = statusText;
-  
+
   // Color code dynamic battery widgets based on current status and bounds
   if (isCharging) {
     elLevelIconContainer.style.color = 'var(--color-primary)';
@@ -575,18 +588,18 @@ function renderBatteryTelemetry(stats) {
   // ------------------------------------------------------------------------
   // First Use Date
   elValFirstUse.textContent = formatFirstUseDate(stats.firstUseDate);
-  
+
   // Temperature calculations (Dumpsys outputs in 10ths of degrees C, e.g. 290 -> 29.0°C)
   const celsius = stats.temp / 10;
   const fahrenheit = (celsius * 9) / 5 + 32;
   elValTemp.textContent = `${celsius.toFixed(1)} °C`;
   elValTempSub.textContent = `${fahrenheit.toFixed(1)} °F`;
-  
+
   // Voltage conversions (Dumpsys outputs in mV, e.g. 4124 mV -> 4.124 V)
   const volts = stats.voltage / 1000;
   elValVoltage.textContent = `${stats.voltage.toLocaleString()} mV`;
   elValVoltageSub.textContent = `${volts.toFixed(3)} V`;
-  
+
   // Power connection source interpretation
   let sourceText = dict.battery;
   if (stats.acPowered) {
@@ -597,7 +610,7 @@ function renderBatteryTelemetry(stats) {
     sourceText = dict.wireless;
   }
   elValPowerSource.textContent = sourceText;
-  
+
   // Max Charging Current (Microamps uA -> Milliamps mA)
   const currentMA = stats.maxCurrent / 1000;
   elValMaxCurrent.textContent = stats.maxCurrent > 0 ? `${dict.maxCurrent}: ~${currentMA.toFixed(0)} mA` : `${dict.maxCurrent}: --`;
@@ -614,23 +627,23 @@ async function fetchDeviceBatteryReport(deviceId) {
   try {
     const info = await window.api.getDeviceInfo(deviceId);
     if (!info) return;
-    
+
     // Resolve marketing name and bind to elements
     const prettyName = getFriendlyModelName(info.model);
     elValModelCode.textContent = prettyName;
     elValModelSub.textContent = info.model;
-    
+
     // Output operating system build versions
     elValOsVersion.textContent = `Android ${info.androidVersion}`;
     elValSdkVersion.textContent = `API SDK ${info.sdk}`;
-    
+
     // Request raw logs, parse, and trigger rendering
     const rawStats = await window.api.getBatteryStats(deviceId);
     const parsedData = parseBatteryDump(rawStats);
-    
+
     deviceData = parsedData;
     renderBatteryTelemetry(parsedData);
-    
+
   } catch (err) {
     console.error('Failed to query hardware telemetry details:', err);
   }
@@ -645,7 +658,7 @@ async function fetchDeviceBatteryReport(deviceId) {
 async function pollDevices() {
   try {
     const devices = await window.api.getDevices();
-    
+
     if (devices.length === 0) {
       // --------------------------------------------------------------------
       // Scenario A: No devices detected
@@ -653,42 +666,42 @@ async function pollDevices() {
       deviceStatus = 'disconnected';
       currentDeviceId = null;
       deviceData = null;
-      
+
       elStatusDot.className = 'status-dot status-disconnected';
       elConnectionStatus.textContent = window.translations[currentLanguage].noDevice;
-      
+
       elWaitingStatusTitle.textContent = window.translations[currentLanguage].noDevice;
       elWaitingStatusDesc.textContent = window.translations[currentLanguage].searching;
       elWaitingIcon.style.color = 'var(--color-primary)';
-      
+
       showView('waiting-view');
-      
+
     } else {
       const device = devices[0]; // Capture primary active USB device node
       currentDeviceId = device.id;
-      
+
       if (device.status === 'unauthorized') {
         // --------------------------------------------------------------------
         // Scenario B: Device detected but unauthorized via USB debugging
         // --------------------------------------------------------------------
         deviceStatus = 'unauthorized';
         deviceData = null;
-        
+
         elStatusDot.className = 'status-dot status-unauthorized';
         elConnectionStatus.textContent = window.translations[currentLanguage].unauthorized;
-        
+
         elWaitingStatusTitle.textContent = window.translations[currentLanguage].unauthorized;
         elWaitingStatusDesc.textContent = window.translations[currentLanguage].searching;
         elWaitingIcon.style.color = 'var(--color-amber)';
-        
+
         showView('waiting-view');
-        
+
       } else if (device.status === 'device') {
         // --------------------------------------------------------------------
         // Scenario C: Device authorized. Confirming hardware compatibility locks.
         // --------------------------------------------------------------------
         const info = await window.api.getDeviceInfo(device.id);
-        
+
         if (!info) {
           deviceStatus = 'disconnected';
           showView('waiting-view');
@@ -697,35 +710,35 @@ async function pollDevices() {
 
         // Security check condition: Brand or manufacturer strings must match 'samsung'
         const isSamsung = info.brand.includes('samsung') || info.manufacturer.includes('samsung');
-        
+
         if (!isSamsung) {
           // ----------------------------------------------------------------
           // Scenario C-1: Restricted brand ➜ Enforce locks and direct to warning
           // ----------------------------------------------------------------
           deviceStatus = 'unsupported';
           deviceData = null;
-          
+
           elStatusDot.className = 'status-dot status-disconnected'; // Block indication
           elConnectionStatus.textContent = window.translations[currentLanguage].notSamsungTitle;
-          
+
           // Display identified brand & specification info in details list
           elValDetectedBrand.textContent = info.brand.toUpperCase();
           elValDetectedModel.textContent = info.model;
-          
+
           showView('unsupported-view');
-          
+
         } else {
           // ----------------------------------------------------------------
           // Scenario C-2: Authenticated Samsung device ➜ Proceed to dashboard
           // ----------------------------------------------------------------
           const wasNotConnected = deviceStatus !== 'connected';
           deviceStatus = 'connected';
-          
+
           elStatusDot.className = 'status-dot status-connected'; // Safe access verified
           elConnectionStatus.textContent = window.translations[currentLanguage].connected;
-          
+
           await fetchDeviceBatteryReport(device.id);
-          
+
           if (wasNotConnected) {
             showView('dashboard-view');
           }
@@ -746,7 +759,7 @@ async function init() {
   try {
     const systemLocale = await window.api.getSystemLocale();
     console.log('Detected native system locale value:', systemLocale);
-    
+
     const savedLang = localStorage.getItem('samsung_battery_lang');
     if (savedLang) {
       defaultLang = savedLang; // Respect manual user selections
@@ -770,15 +783,15 @@ async function init() {
   } catch (e) {
     console.error('Failed to locate system language context, fallback to English:', e);
   }
-  
+
   // Render dynamic UI translations
   updateLanguageUI(defaultLang);
-  
+
   // B. Select dynamic locale switcher configuration event
   elLangSelect.addEventListener('change', (e) => {
     updateLanguageUI(e.target.value);
   });
-  
+
   // C. Initialize manual synchronization reload button hooks
   // Connection waiting panel synchronization
   elBtnRefresh.addEventListener('click', async () => {
@@ -788,7 +801,7 @@ async function init() {
       elBtnRefresh.querySelector('svg').classList.remove('icon-spin-hover');
     }, 1000);
   });
-  
+
   // Main statistics dashboard panel synchronization
   elBtnDashboardRefresh.addEventListener('click', async () => {
     elBtnDashboardRefresh.querySelector('svg').classList.add('icon-spin-hover');
@@ -808,7 +821,7 @@ async function init() {
       }, 1000);
     });
   }
- 
+
   // D. Launch poll scan loop heartbeat checking every 2 seconds
   pollDevices(); // Instantly fire initial device check scan
   pollInterval = setInterval(pollDevices, 2000);

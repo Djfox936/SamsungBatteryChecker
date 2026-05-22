@@ -83,6 +83,21 @@ function createWindow() {
     }
   });
 
+  // Open external links in default system browser instead of Electron app
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (url.startsWith('http:') || url.startsWith('https:')) {
+      event.preventDefault();
+      require('electron').shell.openExternal(url);
+    }
+  });
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('http:') || url.startsWith('https:')) {
+      require('electron').shell.openExternal(url);
+    }
+    return { action: 'deny' };
+  });
+
   // Load structural layout
   mainWindow.loadFile('index.html');
 

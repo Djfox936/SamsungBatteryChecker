@@ -73,6 +73,7 @@ window.translations = {
     step2Desc: '返回「設定」主畫面，滑到最下方點擊「開發者選項」，找到「USB 偵錯」並將其開啟。',
     step3Title: '3. 連接並授權電腦',
     step3Desc: '使用傳輸線連接手機與電腦。當手機螢幕彈出「允許 USB 偵錯嗎？」提示時，勾選「永遠允許來自這台電腦的偵錯」並點擊「允許」。',
+    driverTip: 'Windows 使用者：若偵測不到手機，請確認已安裝三星官方的 <a href="https://developer.samsung.com/android-usb-driver" class="driver-link" target="_blank">USB 驅動程式</a>。',
     
     // Action trigger controls
     refresh: '手動重新整理',
@@ -147,6 +148,7 @@ window.translations = {
     step2Desc: '返回“设置”主画面，滑到最下方点击“开发者选项”，找到“USB 调试”并将其开启。',
     step3Title: '3. 连接并授权电脑',
     step3Desc: '使用数据线连接手机与电脑。当手机屏幕弹出“允许 USB 调试吗？”提示时，勾选“始终允许来自这台电脑的调试”并点击“允许”。',
+    driverTip: 'Windows 用户：若检测不到手机，请确认已安装三星官方的 <a href="https://developer.samsung.com/android-usb-driver" class="driver-link" target="_blank">USB 驱动程序</a>。',
     
     // Action trigger controls
     refresh: '手动刷新',
@@ -221,6 +223,7 @@ window.translations = {
     step2Desc: 'Go back to Settings main screen, scroll to the bottom, tap "Developer options". Find and toggle "USB debugging" to ON.',
     step3Title: '3. Connect & Authorize PC',
     step3Desc: 'Connect your phone to your computer via USB. When prompted on your phone screen with "Allow USB debugging?", check "Always allow from this computer" and tap "Allow".',
+    driverTip: 'Windows users: If your phone is not detected, please make sure you have installed the official <a href="https://developer.samsung.com/android-usb-driver" class="driver-link" target="_blank">Samsung USB Driver</a>.',
     
     // Action trigger controls
     refresh: 'Refresh Manually',
@@ -295,6 +298,7 @@ window.translations = {
     step2Desc: '「設定」のホーム画面に戻り、一番下にある「開発者向けオプション」をタップします。「USBデバッグ」を探してオンにします。',
     step3Title: '3. 接続してPCを許可する',
     step3Desc: 'USBケーブルでスマホをPCに接続します。スマホ画面に「USBデバッグを許可しますか？」と表示されたら、「このパソコンからのデバッグを常に許可する」にチェックを入れて「許可」をタップします。',
+    driverTip: 'Windowsユーザー：端末が検出されない場合は、公式の <a href="https://developer.samsung.com/android-usb-driver" class="driver-link" target="_blank">Samsung USB ドライバ</a> がインストールされているかご確認ください。',
     
     // Action trigger controls
     refresh: '手動更新',
@@ -369,6 +373,7 @@ window.translations = {
     step2Desc: '다시 "설정" 첫 화면으로 돌아가 맨 아래의 "개발자 옵션"을 누릅니다. "USB 디버깅" 항목을 찾아 활성화(ON)합니다.',
     step3Title: '3. 컴퓨터 연결 및 허용',
     step3Desc: 'USB 케이블로 휴대폰과 컴퓨터를 연결합니다. 휴대폰 화면에 "USB 디버깅을 허용하시겠습니까?" 팝업이 뜨면 "이 컴퓨터에서 항상 허용"을 체크하고 "허용"을 터치합니다.',
+    driverTip: 'Windows 사용자: 기기가 감지되지 않는 경우, 공식 <a href="https://developer.samsung.com/android-usb-driver" class="driver-link" target="_blank">Samsung USB 드라이버</a>가 설치되어 있는지 확인해 주세요.',
     
     // Action trigger controls
     refresh: '수동 새로고침',
