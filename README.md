@@ -4,6 +4,7 @@ An elegant Electron-based desktop application designed to retrieve accurate batt
 
 一款專為三星 (Samsung Galaxy) 裝置打造的優雅 Electron 桌面應用程式，採用簡潔設計，能精準讀取底層電池健康度 (SOH) 與充電循環次數指標。
 
+<img width="925" height="723" alt="截圖 2026-05-22 下午5 25 37" src="https://github.com/user-attachments/assets/f512dbe6-ab9d-4078-ba51-e337832cd210" />
 ---
 
 ## Language Selection / 語言選擇
