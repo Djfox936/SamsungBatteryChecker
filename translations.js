@@ -42,7 +42,7 @@ window.translations = {
     healthStatus: '健康狀態評估',
     chargerType: '充電器類型',
     maxCurrent: '最大充電電流',
-    firstUse: '首次使用日期',
+    firstUse: '首次電池使用日期',
     firstUseSub: '電池首次啟用時間',
     
     // Battery state enumerations
@@ -117,7 +117,7 @@ window.translations = {
     healthStatus: '健康状态评估',
     chargerType: '充电器类型',
     maxCurrent: '最大充电电流',
-    firstUse: '首次使用日期',
+    firstUse: '首次电池使用日期',
     firstUseSub: '电池首次启用时间',
     
     // Battery state enumerations
@@ -192,7 +192,7 @@ window.translations = {
     healthStatus: 'Health Evaluation',
     chargerType: 'Charger Connection',
     maxCurrent: 'Max Charging Current',
-    firstUse: 'First Use Date',
+    firstUse: 'First Battery Use Date',
     firstUseSub: 'Battery First Use Time',
     
     // Battery state enumerations
@@ -267,7 +267,7 @@ window.translations = {
     healthStatus: '健康状態の評価',
     chargerType: '充電器の種類',
     maxCurrent: '最大充電電流',
-    firstUse: '初回使用日',
+    firstUse: '初回バッテリー使用日',
     firstUseSub: 'バッテリー初回使用時間',
     
     // Battery state enumerations
@@ -342,7 +342,7 @@ window.translations = {
     healthStatus: '배터리 상태 평가',
     chargerType: '충전기 종류',
     maxCurrent: '최대 충전 전류',
-    firstUse: '최초 사용일',
+    firstUse: '최초 배터리 사용일',
     firstUseSub: '배터리 최초 활성화 시간',
     
     // Battery state enumerations
